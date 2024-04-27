@@ -15,34 +15,34 @@ sudo apt install nfs-common
 ```
 sudo mkdir /var/nfs/demo -p
 ls -dl /var/nfs/demo
-Output
+# Output
 drwxr-xr-x 2 root root 4096 Apr 17 23:51 /var/nfs/demo
 # NFS will translate any root operations on the client to the nobody:nogroup credentials as a security measure. Therefore, you need to change the directory ownership to match those credentials.
 sudo chown nobody:nogroup /var/nfs/demo
 ls -dl /var/nfs/demo
-Output
+# Output
 drwxr-xr-x 2 nobody nogroup 4096 Apr 17 23:51 /var/nfs/demo
 ```
 ## Step 3 — Configuring the NFS Exports on the Host Server
 ```
 sudo vim /etc/exports
-/var/nfs/demo    client_ip(rw,sync,no_subtree_check)  # input in exports file
+/var/nfs/demo    client_ip(rw,sync,no_subtree_check)  # enter input in exports file
 sudo systemctl restart nfs-kernel-server
 ```
 ## Step 4 — Adjusting the Firewall on the Host
 ```
 sudo ufw status
-Output
-Status: inactive
+# Output
+  Status: inactive
 sudo ufw enable
 sudo ufw status
-Output
-Status: active
+# Output
+  Status: active
 sudo ufw allow ssh #for preventing not accessing ssh after firewall allow for nfs 
 sudo ufw allow from client_ip to any port nfs
 sudo ufw status
-Output
-Status: active
+# Output
+  Status: active
 
 To                         Action      From
 --                         ------      ----
@@ -57,7 +57,7 @@ SSH (v6)                   ALLOW       Anywhere (v6)
 sudo mkdir -p /nfs/demo
 sudo mount host_ip:/var/nfs/demo /nfs/demo
 df -h
-Output
+# Output
 Filesystem                   Size  Used Avail Use% Mounted on
 tmpfs                        198M  972K  197M   1% /run
 /dev/vda1                     50G    5G   45G  10% /
@@ -73,20 +73,20 @@ du -sh /nfs/demo    # This shows us that the contents of the entire demo directo
 ```
 sudo touch /nfs/demo/demo.test
 ls -l /nfs/demo/demo.test
-Output
--rw-r--r-- 1 nobody nogroup 0 Apr 18 00:02 /nfs/demo/demo.test
+# Output
+  -rw-r--r-- 1 nobody nogroup 0 Apr 18 00:02 /nfs/demo/demo.test
 ```
 ## Step 7 — Mounting the Remote NFS Directories at Boot
 ```
 sudo vim /etc/fstab
-host_ip:/var/nfs/demo    /nfs/demo   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0
+host_ip:/var/nfs/demo    /nfs/demo   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0    # enter input in fstab file
 man nfs    #for checking more details of nfs commands
 ```
 ## Step 8 — Unmounting an NFS Remote Share
 ```
 sudo umount /nfs/demo
 df -h
-Output
+# Output
 Filesystem                   Size  Used Avail Use% Mounted on
 tmpfs                        198M  972K  197M   1% /run
 /dev/vda1                     50G    5G   45G  10% /
