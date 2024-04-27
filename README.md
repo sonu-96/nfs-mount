@@ -17,7 +17,7 @@ sudo mkdir /var/nfs/demo -p
 ls -dl /var/nfs/demo
 Output
 drwxr-xr-x 2 root root 4096 Apr 17 23:51 /var/nfs/demo
---- NFS will translate any root operations on the client to the nobody:nogroup credentials as a security measure. Therefore, you need to change the directory ownership to match those credentials. ---
+# NFS will translate any root operations on the client to the nobody:nogroup credentials as a security measure. Therefore, you need to change the directory ownership to match those credentials.
 sudo chown nobody:nogroup /var/nfs/demo
 ls -dl /var/nfs/demo
 Output
@@ -26,7 +26,7 @@ drwxr-xr-x 2 nobody nogroup 4096 Apr 17 23:51 /var/nfs/demo
 ## Step 3 — Configuring the NFS Exports on the Host Server
 ```
 sudo vim /etc/exports
-/var/nfs/demo    client_ip(rw,sync,no_subtree_check) --- put into exports file ---
+/var/nfs/demo    client_ip(rw,sync,no_subtree_check)  # input in exports file
 sudo systemctl restart nfs-kernel-server
 ```
 ## Step 4 — Adjusting the Firewall on the Host
@@ -38,7 +38,7 @@ sudo ufw enable
 sudo ufw status
 Output
 Status: active
-sudo ufw allow ssh --- for preventing not accessing ssh after firewall allow for nfs ---
+sudo ufw allow ssh #for preventing not accessing ssh after firewall allow for nfs 
 sudo ufw allow from client_ip to any port nfs
 sudo ufw status
 Output
@@ -49,6 +49,8 @@ To                         Action      From
 SSH                        ALLOW       Anywhere                 
 2049                       ALLOW       32.0.13.24        
 SSH (v6)                   ALLOW       Anywhere (v6)
+
+# after allow firewall restart your computer
 ```
 ## Step 5 — Creating Mount Points and Mounting Directories on the Client
 ```
@@ -65,7 +67,7 @@ tmpfs                        5.0M     0  5.0M   0% /run/lock
 tmpfs                        198M  4.0K  198M   1% /run/user/1000
 10.108.0.7:/var/nfs/demo      10G  3G      7G  30% /nfs/demo
 
-du -sh /nfs/demo --- This shows us that the contents of the entire demo directory is using the available space.
+du -sh /nfs/demo    # This shows us that the contents of the entire demo directory is using the available space.
 ```
 ## Step 6 — Testing NFS Access create file demo.txt
 ```
@@ -78,7 +80,7 @@ Output
 ```
 sudo vim /etc/fstab
 host_ip:/var/nfs/demo    /nfs/demo   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0
-man nfs   ---- for checking more details of nfs ----
+man nfs    #for checking more details of nfs commands
 ```
 ## Step 8 — Unmounting an NFS Remote Share
 ```
