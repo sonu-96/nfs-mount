@@ -1,4 +1,5 @@
 # nfs-mount
+```
 ## Step 1 — Downloading and Installing the Components - on the Host Server
 sudo apt update
 sudo apt install nfs-kernel-server
@@ -75,3 +76,5 @@ tmpfs                        900M     0  900M   0% /dev/shm
 tmpfs                        5.0M     0  5.0M   0% /run/lock
 /dev/vda15                   105M  5.3M  100M   5% /boot/efi
 tmpfs                        198M  4.0K  198M   1% /run/user/1000
+
+```
