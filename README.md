@@ -1,7 +1,6 @@
 # nfs-mount
-```
+
 NFS, or Network File System, is a distributed file system protocol that allows you to mount remote directories on your server. This allows you to manage storage space in a different location and write to that space from multiple clients. NFS provides a relatively standard and performant way to access remote systems over a network and works well in situations where the shared resources must be accessed regularly.
-```
 
 ## Step 1 — Downloading and Installing the Components - on the Host Server
 ```
