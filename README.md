@@ -1,4 +1,7 @@
 # nfs-mount
+```
+NFS, or Network File System, is a distributed file system protocol that allows you to mount remote directories on your server. This allows you to manage storage space in a different location and write to that space from multiple clients. NFS provides a relatively standard and performant way to access remote systems over a network and works well in situations where the shared resources must be accessed regularly.
+```
 
 ## Step 1 — Downloading and Installing the Components - on the Host Server
 ```
@@ -10,7 +13,7 @@ sudo apt install nfs-kernel-server
 sudo apt update
 sudo apt install nfs-common
 ```
-## Step 2 — Creating the Share Directories on the Host
+## Step 2 — Creating the Share Directories on the Host server
 #### Example 1: Exporting a General Purpose Mount
 ```
 sudo mkdir /var/nfs/demo -p
@@ -29,7 +32,7 @@ sudo vim /etc/exports
 /var/nfs/demo    client_ip(rw,sync,no_subtree_check)  # enter input in exports file
 sudo systemctl restart nfs-kernel-server
 ```
-## Step 4 — Adjusting the Firewall on the Host
+## Step 4 — Adjusting the Firewall on the Host server
 ```
 sudo ufw status
 # Output
@@ -69,20 +72,20 @@ tmpfs                        198M  4.0K  198M   1% /run/user/1000
 
 du -sh /nfs/demo    # This shows us that the contents of the entire demo directory is using the available space.
 ```
-## Step 6 — Testing NFS Access create file demo.txt
+## Step 6 — Testing NFS Access create file demo.txt on the client
 ```
 sudo touch /nfs/demo/demo.test
 ls -l /nfs/demo/demo.test
 # Output
   -rw-r--r-- 1 nobody nogroup 0 Apr 18 00:02 /nfs/demo/demo.test
 ```
-## Step 7 — Mounting the Remote NFS Directories at Boot
+## Step 7 — Mounting the Remote NFS Directories at Boot on the client
 ```
 sudo vim /etc/fstab
 host_ip:/var/nfs/demo    /nfs/demo   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0    # enter input in fstab file
 man nfs    #for checking more details of nfs commands
 ```
-## Step 8 — Unmounting an NFS Remote Share
+## Step 8 — Unmounting an NFS Remote Share on the client
 ```
 sudo umount /nfs/demo
 df -h
